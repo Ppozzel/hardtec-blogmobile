@@ -1,4 +1,4 @@
-# hardtec_app
+# Hardtec - Mobile App
 
 A new Flutter application HardTec.
 

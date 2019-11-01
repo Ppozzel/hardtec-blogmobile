@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//comentario super importantes
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -19,9 +20,11 @@ class MyApp extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         SizedBox(
+          //altura do bixo
           height: 400,
           child: PageView.builder(
             controller: PageController(viewportFraction: 0.9),
+            //qtd de itens, no caso o length do json la
             itemCount: 5,
             itemBuilder: (BuildContext context, int itemIndex) {
               return _buildCarouselItem(context, carouselIndex, itemIndex);

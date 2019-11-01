@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hardtec_app/news.dart';
+
 
 void main() {
-  runApp(MaterialApp(
-    home: ALGO(),
+  runApp(new MaterialApp(
+    home: NoticeHardTec(),
     debugShowCheckedModeBanner: false,
   ));
 }

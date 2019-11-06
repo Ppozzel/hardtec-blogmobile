@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hardtec_app/pages/slider.dart';
 
 class NoticeHardTec extends StatefulWidget {
   @override
@@ -6,17 +7,34 @@ class NoticeHardTec extends StatefulWidget {
 }
 
 class _NoticeHardTecState extends State<NoticeHardTec> {
+  List _categorys = new List();
+  var _category_selected = 0;
+
+  List _news = new List();
+  var repository = new MyApp();
+  var _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 255, 255, 0.9),
-      appBar: AppBar(
+      appBar: new AppBar(
         title: Text(
-          "Um Titulo",
+          "Tópicos Principais",
           style: TextStyle(fontFamily: 'Monoton', color: Colors.white),
         ),
         backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
         centerTitle: true,
+      ),
+      body: new Container(
+        child: new Column(
+          children: <Widget>[
+            _getListCategory(),
+            // new Expanded(
+            //   child: _getListViewWidget(),
+            // )
+          ],
+        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -59,6 +77,12 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     );
   }
 
+  @override
+  void initState() {
+    setCategorys();
+    NoticeHardTec();
+  }
+
   Widget _createHeader() {
     return DrawerHeader(
         margin: EdgeInsets.zero,
@@ -94,5 +118,60 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     );
   }
 
+  void setCategorys() {
+    _categorys.add("Todos");
+    _categorys.add("Limpeza de Componentes");
+    _categorys.add("Manutenção de Desktops");
+    _categorys.add("Saúde e Bem Estar de sua Maquina");
+    _categorys.add("Quiz");
+    _categorys.add("Fica Dica =D");
+  }
 
+  Widget _getListCategory() {
+    ListView listCategory = new ListView.builder(
+        itemCount: _categorys.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return _buildCategoryItem(index);
+        });
+
+    return new Container(
+      height: 55.0,
+      child: listCategory,
+    );
+  }
+
+  Widget _buildCategoryItem(index) {
+    return new GestureDetector(
+      onTap: () {
+        onTabCategory(index);
+      },
+      child: new Center(
+        child: new Container(
+          margin: new EdgeInsets.only(left: 10.0),
+          child: new ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: new Container(
+              padding: new EdgeInsets.only(
+                  left: 12.0, top: 7.0, bottom: 7.0, right: 12.0),
+              color: _category_selected == index
+                  ? Colors.blue[800]
+                  : Colors.blue[500],
+              child: new Text(
+                _categorys[index],
+                style: new TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  //Realiza chamada de serviço para atualizar as noticias de acordo com a categoria selecionada
+  onTabCategory(index) {
+    setState(() {
+      _category_selected = index;
+    });
+  }
 }

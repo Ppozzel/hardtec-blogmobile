@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:hardtec_app/pages/slider.dart';
 
 class NoticeHardTec extends StatefulWidget {
@@ -7,6 +9,26 @@ class NoticeHardTec extends StatefulWidget {
 }
 
 class _NoticeHardTecState extends State<NoticeHardTec> {
+  Map<String, dynamic> dados;
+
+  //Future<String> data;
+  void getData() async {
+    final response = await http.get(
+        Uri.encodeFull("http://hardtec.ga/api/lista-post.php"),
+        headers: {"Accept": "Application/json"});
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+    } else {
+      throw Exception('Failed load');
+    }
+
+    setState(() {
+      dados = json.decode(response.body);
+      // print(dados);
+    });
+  }
+
   List _categorys = new List();
   var _category_selected = 0;
 
@@ -30,6 +52,10 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
         child: new Column(
           children: <Widget>[
             _getListCategory(),
+            // RaisedButton(
+            //   onPressed: getData,
+            // ),
+            Text(dados['posts'][2]['nome']),
             // new Expanded(
             //   child: _getListViewWidget(),
             // )
@@ -77,12 +103,6 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     );
   }
 
-  @override
-  void initState() {
-    setCategorys();
-    NoticeHardTec();
-  }
-
   Widget _createHeader() {
     return DrawerHeader(
         margin: EdgeInsets.zero,
@@ -118,6 +138,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     );
   }
 
+  //============começo do menu categoria=============//
   void setCategorys() {
     _categorys.add("Todos");
     _categorys.add("Limpeza de Componentes");
@@ -173,5 +194,19 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     setState(() {
       _category_selected = index;
     });
+  }
+
+  //============fim do menu categoria=============//
+
+  //============começo dos Cards=============//
+
+  //============fim dos Cards=============//
+
+  @override
+  void initState() {
+    super.initState();
+    this.getData();
+    setCategorys();
+    NoticeHardTec();
   }
 }

@@ -61,20 +61,16 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
               text: 'Contato',
             ),
             _createDrawerItem(
-              icon: Icons.note,
-              text: 'Notes Atualização',
-            ),
-            _createDrawerItem(
               icon: Icons.face,
-              text: 'Autores',
+              text: 'Equipe',
             ),
             _createDrawerItem(
               icon: Icons.account_box,
-              text: 'Flutter Documentation App',
+              text: 'Flutter Documentation GitHub',
             ),
             _createDrawerItem(
               icon: Icons.info_outline,
-              text: 'Sobre o App',
+              text: 'Porque este App',
             ),
             Divider(),
             _createDrawerItem(
@@ -97,12 +93,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
               itemCount: dados == null ? 0 : dados['posts'].length,
               itemBuilder: (BuildContext context, int index) {
                 print("${dados['posts'][index]['titulo']}");
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemCard(dados, index)));
-                  },
-                  //============começo Cards=============//
+                return new GestureDetector(
                   child: Card(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +103,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                           height: 150.0,
                           child: CachedNetworkImage(
                             imageUrl:
-                                "${dados['posts'][index]['imagem_destaque']}",
+                              "${dados['posts'][index]['imagem_destaque']}" ?? 'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
                             placeholder: (context, url) =>
                                 new CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -143,15 +134,18 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                         dados['posts'][index]['data']),
                                     [dd, '/', mm, '/', yyyy])),
                                 SizedBox(
-                                  height: 8.0,
+                                  height: 5.0,
                                 ),
-                                Text(
-                                  "${dados['posts'][index]['conteudo']}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                  style: new TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 18.0,
+                                Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    "${dados['posts'][index]['conteudo']}",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    style: new TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 16.0,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -161,7 +155,10 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                       ],
                     ),
                   ),
-                //============fim dos Cards=============//
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ItemCard(dados, index)));
+                  },
                 );
               },
             ),

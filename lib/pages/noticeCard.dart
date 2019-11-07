@@ -21,44 +21,51 @@ class ItemCard extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image.network(
-                  "${clicado['posts'][index]['imagem_destaque']}",
-                  width: 600,
-                  height: 180,
-                  fit: BoxFit.cover,
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "${clicado['posts'][index]['titulo']}",
-                      style: TextStyle(
-                        color: Colors.deepOrange,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
+          margin: new EdgeInsets.all(15.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.network(
+                "${clicado['posts'][index]['imagem_destaque']}" ?? 'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                width: 600,
+                height: 170,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 6.0,),
+              Column(
+                children: <Widget>[
+                  Text(
+                    "${clicado['posts'][index]['titulo']}",
+                    style: TextStyle(
+                      color: Colors.deepOrange,
+                      fontFamily: 'PressStart2P',
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(formatDate(DateTime.parse(clicado['posts'][index]['data']), [
+                dd,
+                '/',
+                mm,
+                '/',
+                yyyy,
+              ])),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                "${clicado['posts'][index]['conteudo']}",
+                style: new TextStyle(
+                  fontFamily: 'PressStart2P',
                 ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(formatDate(DateTime.parse(clicado['posts'][index]['data']),
-                    [dd, '/', mm, '/', yyyy,])),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  "${clicado['posts'][index]['conteudo']}",
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

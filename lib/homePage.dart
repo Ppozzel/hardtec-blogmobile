@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hardtec_app/pages/noticeCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:hardtec_app/pages/slider.dart';
+import 'package:date_format/date_format.dart';
 
 class NoticeHardTec extends StatefulWidget {
   @override
@@ -10,24 +13,7 @@ class NoticeHardTec extends StatefulWidget {
 
 class _NoticeHardTecState extends State<NoticeHardTec> {
   Map<String, dynamic> dados;
-
-  //Future<String> data;
-  void getData() async {
-    final response = await http.get(
-        Uri.encodeFull("http://hardtec.ga/api/lista-post.php"),
-        headers: {"Accept": "Application/json"});
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print(json.decode(response.body));
-    } else {
-      throw Exception('Failed load');
-    }
-
-    setState(() {
-      dados = json.decode(response.body);
-      // print(dados);
-    });
-  }
+  var isLoading = false;
 
   List _categorys = new List();
   var _category_selected = 0;
@@ -36,31 +22,34 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   var repository = new MyApp();
   var _currentIndex = 0;
 
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var response = await http.get(
+        Uri.encodeFull("http://hardtec.ga/api/lista-post.php"),
+        headers: {"Accept": "Application/json"});
+    if (response.statusCode == 200) {
+      this.setState(() {
+        dados = json.decode(response.body);
+        print(dados);
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 255, 255, 0.9),
       appBar: new AppBar(
         title: Text(
-          "Tópicos Principais",
+          "Assuntos Principais",
           style: TextStyle(fontFamily: 'Monoton', color: Colors.white),
         ),
         backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
         centerTitle: true,
-      ),
-      body: new Container(
-        child: new Column(
-          children: <Widget>[
-            _getListCategory(),
-            // RaisedButton(
-            //   onPressed: getData,
-            // ),
-            Text(dados['posts'][2]['nome']),
-            // new Expanded(
-            //   child: _getListViewWidget(),
-            // )
-          ],
-        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -100,6 +89,82 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
           ],
         ),
       ),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: dados == null ? 0 : dados['posts'].length,
+              itemBuilder: (BuildContext context, int index) {
+                print("${dados['posts'][index]['titulo']}");
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ItemCard(dados, index)));
+                  },
+                  //============começo Cards=============//
+                  child: Card(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 150.0,
+                          height: 150.0,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "${dados['posts'][index]['imagem_destaque']}",
+                            placeholder: (context, url) =>
+                                new CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                new Icon(Icons.error),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "${dados['posts'][index]['titulo']}",
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontFamily: 'Roboto',
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(formatDate(
+                                    DateTime.parse(
+                                        dados['posts'][index]['data']),
+                                    [dd, '/', mm, '/', yyyy])),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  "${dados['posts'][index]['conteudo']}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  style: new TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                //============fim dos Cards=============//
+                );
+              },
+            ),
     );
   }
 
@@ -197,10 +262,6 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   }
 
   //============fim do menu categoria=============//
-
-  //============começo dos Cards=============//
-
-  //============fim dos Cards=============//
 
   @override
   void initState() {

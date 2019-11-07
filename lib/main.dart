@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hardtec_app/news.dart';
+import 'package:hardtec_app/homePage.dart';
 
 
 void main() {

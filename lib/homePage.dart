@@ -5,6 +5,8 @@ import 'package:hardtec_app/pages/noticeCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:hardtec_app/pages/slider.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:html/parser.dart' show parse;
 
 class NoticeHardTec extends StatefulWidget {
   @override
@@ -21,6 +23,12 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   List _news = new List();
   var repository = new MyApp();
   var _currentIndex = 0;
+
+  static String removeTag(htmlString) {
+    var codHtml = parse(htmlString);
+    String htmlnoTag = parse(codHtml.body.text).documentElement.text;
+    return htmlnoTag;
+  }
 
   getData() async {
     setState(() {
@@ -56,6 +64,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createHeader(),
+            SizedBox(height: 20),
             _createDrawerItem(
               icon: Icons.contacts,
               text: 'Contato',
@@ -70,14 +79,14 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
             ),
             _createDrawerItem(
               icon: Icons.info_outline,
-              text: 'Porque este App',
+              text: 'Porque este App ?',
             ),
             Divider(),
             _createDrawerItem(
               icon: Icons.bug_report,
               text: 'Report um BUG',
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 140),
             ListTile(
               title: Text('0.0.1'),
               onTap: () {},
@@ -92,6 +101,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
           : ListView.builder(
               itemCount: dados == null ? 0 : dados['posts'].length,
               itemBuilder: (BuildContext context, int index) {
+                String test = removeTag(dados['posts'][index]['conteudo']);
                 print("${dados['posts'][index]['titulo']}");
                 return new GestureDetector(
                   child: Card(
@@ -103,7 +113,8 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                           height: 150.0,
                           child: CachedNetworkImage(
                             imageUrl:
-                              "${dados['posts'][index]['imagem_destaque']}" ?? 'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                                "${dados['posts'][index]['imagem_destaque']}" ??
+                                    'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
                             placeholder: (context, url) =>
                                 new CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -139,7 +150,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                 Padding(
                                   padding: const EdgeInsets.all(0),
                                   child: Text(
-                                    "${dados['posts'][index]['conteudo']}",
+                                    test,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 3,
                                     style: new TextStyle(
@@ -148,6 +159,33 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                     ),
                                   ),
                                 ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 5, 8, 4),
+                                      child: InkWell(
+                                        child: Text(
+                                          "Leia Mais >>",
+                                          style: TextStyle(
+                                            color: Colors.redAccent,
+                                            fontFamily: 'Roboto',
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemCard(dados, index)));
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -155,10 +193,10 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemCard(dados, index)));
-                  },
+                  // onTap: () {
+                  //   Navigator.of(context).push(MaterialPageRoute(
+                  //       builder: (context) => ItemCard(dados, index)));
+                  // },
                 );
               },
             ),

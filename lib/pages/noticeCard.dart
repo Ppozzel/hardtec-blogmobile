@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class ItemCard extends StatelessWidget {
   final Map<String, dynamic> clicado;
@@ -21,50 +22,60 @@ class ItemCard extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: new EdgeInsets.all(15.0),
+          margin: new EdgeInsets.all(8),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image.network(
-                "${clicado['posts'][index]['imagem_destaque']}" ?? 'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                "${clicado['posts'][index]['imagem_destaque']}" ??
+                    'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
                 width: 600,
                 height: 170,
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 6.0,),
-              Column(
-                children: <Widget>[
-                  Text(
-                    "${clicado['posts'][index]['titulo']}",
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontFamily: 'PressStart2P',
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
+              SizedBox(
+                height: 20.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      "${clicado['posts'][index]['titulo']}",
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontFamily: 'Roboto',
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(formatDate(DateTime.parse(clicado['posts'][index]['data']), [
-                dd,
-                '/',
-                mm,
-                '/',
-                yyyy,
-              ])),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                "${clicado['posts'][index]['conteudo']}",
-                style: new TextStyle(
-                  fontFamily: 'PressStart2P',
+                  ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Text(formatDate(
+                    DateTime.parse(clicado['posts'][index]['data']), [
+                  dd,
+                  '/',
+                  mm,
+                  '/',
+                  yyyy,
+                ])),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              HtmlWidget(
+                clicado['posts'][index]['conteudo'],
+              ),
+              // Text(
+              //   "${clicado['posts'][index]['conteudo']}",
+              //   style: new TextStyle(
+              //     fontFamily: 'Monoto',
+              //   ),
+              // ),
             ],
           ),
         ),

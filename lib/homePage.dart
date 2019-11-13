@@ -98,106 +98,121 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemCount: dados == null ? 0 : dados['posts'].length,
-              itemBuilder: (BuildContext context, int index) {
-                String test = removeTag(dados['posts'][index]['conteudo']);
-                print("${dados['posts'][index]['titulo']}");
-                return new GestureDetector(
-                  child: Card(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 150.0,
-                          height: 150.0,
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "${dados['posts'][index]['imagem_destaque']}" ??
-                                    'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
-                            placeholder: (context, url) =>
-                                new CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                new Icon(Icons.error),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${dados['posts'][index]['titulo']}",
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontFamily: 'Roboto',
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.0,
-                                ),
-                                Text(formatDate(
-                                    DateTime.parse(
-                                        dados['posts'][index]['data']),
-                                    [dd, '/', mm, '/', yyyy])),
-                                SizedBox(
-                                  height: 5.0,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0),
-                                  child: Text(
-                                    test,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: new TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 5, 8, 4),
-                                      child: InkWell(
-                                        child: Text(
-                                          "Leia Mais >>",
-                                          style: TextStyle(
-                                            color: Colors.redAccent,
-                                            fontFamily: 'Roboto',
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ItemCard(dados, index)));
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+          : new RefreshIndicator(
+              child: ListView.builder(
+                itemCount: dados == null ? 0 : dados['posts'].length,
+                itemBuilder: (BuildContext context, int index) {
+                  String test = removeTag(dados['posts'][index]['conteudo']);
+                  print("${dados['posts'][index]['titulo']}");
+                  return new GestureDetector(
+                    child: Card(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 150.0,
+                            height: 150.0,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "${dados['posts'][index]['imagem_destaque']}" ??
+                                      'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                              placeholder: (context, url) =>
+                                  new CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  new Icon(Icons.error),
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${dados['posts'][index]['titulo']}",
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontFamily: 'Roboto',
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Text(formatDate(
+                                      DateTime.parse(
+                                          dados['posts'][index]['data']),
+                                      [dd, '/', mm, '/', yyyy])),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Text(
+                                      test,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      style: new TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 5, 8, 4),
+                                        child: InkWell(
+                                          child: Text(
+                                            "Leia Mais >>",
+                                            style: TextStyle(
+                                              color: Colors.redAccent,
+                                              fontFamily: 'Roboto',
+                                              fontStyle: FontStyle.italic,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ItemCard(
+                                                            dados, index)));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  // onTap: () {
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //       builder: (context) => ItemCard(dados, index)));
-                  // },
-                );
+                    // onTap: () {
+                    //   Navigator.of(context).push(MaterialPageRoute(
+                    //       builder: (context) => ItemCard(dados, index)));
+                    // },
+                  );
+                },
+              ),
+              onRefresh: () async {
+                var response = await http.get(
+                    Uri.encodeFull("http://hardtec.ga/api/lista-post.php"),
+                    headers: {"Accept": "Application/json"});
+                if (response.statusCode == 200) {
+                  this.setState(() {
+                    dados = json.decode(response.body);
+                    print(dados);
+                    isLoading = false;
+                  });
+                }
               },
             ),
     );

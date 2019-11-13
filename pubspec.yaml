@@ -45,10 +45,10 @@ dev_dependencies:
   flutter_launcher_icons: "^ 0.7.0" 
   
 flutter_icons:
-  ios: true
+  ios: false
   android: true
-  image_path_ios: "assets/launcher/icon.png"
-  image_path_android: "assets/launcher/icon.png"
+  image_path_ios: "assets/launcher/logohardtec.png"
+  image_path_android: "assets/launcher/logohardtec.png"
   adaptive_icon_background: "assets/launcher/background.png"
   adaptive_icon_foreground: "assets/launcher/foreground.png"
 
@@ -82,17 +82,17 @@ flutter:
   fonts:
     - family: Raleway
       fonts:
-        - asset: assets/Raleway/Raleway-Regular.ttf
-        - asset: assets/Raleway/Raleway-Italic.ttf
+        - asset: assets/fonts/Raleway/Raleway-Regular.ttf
+        - asset: assets/fonts/Raleway/Raleway-Italic.ttf
           style: italic
     - family: RobotoMono
       fonts:
-        - asset: assets/Roboto_Mono/RobotoMono-Regular.ttf
-        - asset: assets/Roboto_Mono/RobotoMono-Bold.ttf
+        - asset: assets/fonts/Roboto_Mono/RobotoMono-Regular.ttf
+        - asset: assets/fonts/Roboto_Mono/RobotoMono-Bold.ttf
           weight: 700
     - family: PressStart2P
       fonts:
-        - asset: assets/Press_Start_2P/PressStart2P-Regular.ttf
+        - asset: assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

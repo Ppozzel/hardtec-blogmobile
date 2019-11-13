@@ -244,6 +244,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     _categorys.add("Limpeza de Componentes");
     _categorys.add("Manutenção de Desktops");
     _categorys.add("Saúde e Bem Estar de sua Maquina");
+    _categorys.add("Eventos do Senac São João");
     _categorys.add("Quiz");
     _categorys.add("Fica Dica =D");
   }

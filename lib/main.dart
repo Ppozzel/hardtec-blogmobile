@@ -6,8 +6,7 @@ import 'pages/splash.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: SplashScreen(),
+    home: NoticeHardTec(),
     debugShowCheckedModeBanner: false,
-    routes: {"/homepage": (_) => NoticeHardTec()},
   ));
 }

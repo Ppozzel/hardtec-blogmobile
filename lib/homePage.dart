@@ -67,22 +67,9 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
             SizedBox(height: 20),
             _createDrawerItem(
               icon: Icons.contacts,
-              text: 'Contato',
+              text: 'Sobre',
             ),
-            _createDrawerItem(
-              icon: Icons.account_box,
-              text: 'Flutter Documentation GitHub',
-            ),
-            _createDrawerItem(
-              icon: Icons.info_outline,
-              text: 'Porque este App ?',
-            ),
-            Divider(),
-            _createDrawerItem(
-              icon: Icons.bug_report,
-              text: 'Report o BUG',
-            ),
-            SizedBox(height: 190),
+            SizedBox(height: 360),
             ListTile(
               title: Text('0.0.1'),
               onTap: () {},
@@ -91,6 +78,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
         ),
       ),
       body: new Container(
+        margin: new EdgeInsets.all(8),
         child: new Column(
           children: <Widget>[
             _getListCategory(),
@@ -108,97 +96,119 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                           print("${dados['posts'][index]['titulo']}");
                           return new GestureDetector(
                             child: Card(
-                              child: Row(
+                              child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  SizedBox(
-                                    width: 150.0,
-                                    height: 150.0,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "http://hardtec.ga/assets/img/post/${dados['posts'][index]['id_postagem']}/${dados['posts'][index]['id_postagem'] + dados['posts'][index]['imgtype']}" ??
-                                              'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
-                                      placeholder: (context, url) =>
-                                          new CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          new Icon(Icons.error),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                    child: SizedBox(
+                                      width: 340,
+                                      height: 200,
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "http://hardtec.ga/assets/img/post/${dados['posts'][index]['id_postagem']}/${dados['posts'][index]['id_postagem'] + dados['posts'][index]['imgtype']}" ??
+                                                'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                                        placeholder: (context, url) =>
+                                            new CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            new Icon(Icons.error),
+                                            fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 0, 0, 0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "${dados['posts'][index]['titulo']}",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'Roboto',
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          Text(formatDate(
-                                              DateTime.parse(dados['posts']
-                                                  [index]['data']),
-                                              [dd, '/', mm, '/', yyyy])),
-                                          SizedBox(
-                                            height: 5.0,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(0),
-                                            child: Text(
-                                              test,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 3,
-                                              style: new TextStyle(
-                                                fontFamily: 'Roboto',
-                                                fontSize: 16.0,
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              20, 0, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
+                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                                child: Text(
+                                                  "${dados['posts'][index]['titulo']}",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Roboto',
+                                                    fontStyle: FontStyle.italic,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 9),
+                                                    child: Text(formatDate(
+                                                        DateTime.parse(dados['posts']
+                                                            [index]['data']),
+                                                        [dd, '/', mm, '/', yyyy])),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
+                                              Padding(
                                                 padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8, 20, 20, 4),
-                                                child: FlatButton(
-                                                  child: Text(
-                                                    "Leia Mais",
-                                                    style: TextStyle(
-                                                      color: Colors.redAccent,
-                                                      fontFamily: 'Roboto',
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16.0,
+                                                    const EdgeInsets.all(0),
+                                                child: Text(
+                                                  test,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 3,
+                                                  style: new TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(8, 20, 20, 4),
+                                                    child: FlatButton(
+                                                      child: Text(
+                                                        "Leia Mais",
+                                                        style: TextStyle(
+                                                          color:
+                                                              Colors.redAccent,
+                                                          fontFamily: 'Roboto',
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16.0,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    ItemCard(
+                                                                        dados,
+                                                                        index)));
+                                                      },
                                                     ),
                                                   ),
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ItemCard(dados,
-                                                                    index)));
-                                                  },
-                                                ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -268,6 +278,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     _categorys.add("Técnico em Enfermagem");
     _categorys.add("Manutenção de Computadores");
     _categorys.add("Técnico em Administração");
+    _categorys.add("Enfermagem");
     _categorys.add("Eventos do Senac São João");
     _categorys.add("Quiz");
     _categorys.add("Fica Dica =D");

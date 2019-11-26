@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:date_format/date_format.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:share/share.dart';
+import 'package:http/http.dart' as http;
 
-class ItemCard extends StatelessWidget {
-  final Map<String, dynamic> clicado;
-  final int index;
+class About extends StatefulWidget {
+  @override
+  _AboutState createState() => _AboutState();
+}
 
-  DateTime data;
+// Widget _AboutTeam() {
+//   ListView listCategory = new ListView.builder(
+//       itemCount: team == null ? 0 : team['categorias'].length,
+//       scrollDirection: Axis.horizontal,
+//       itemBuilder: (context, index) {
+//         return _buildCategoryItem(index);
+//       });
 
-  ItemCard(this.clicado, this.index);
+//   return new Container(
+//     height: 55.0,
+//     child: Container(
+//       child: listCategory,
+//     ),
+//   );
+// }
 
+class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Título",
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Monoton',
-            fontSize: 24,
-          ),
-        ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 0.9),
+      appBar: new AppBar(
+        title: Text("Team Work ᕕ( ᐛ )ᕗ",
+            style: TextStyle(fontFamily: 'Monoton', color: Colors.white)),
         backgroundColor: Color.fromRGBO(237, 134, 24, 0.9),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: new SingleChildScrollView(
+        child: new Container(
           margin: new EdgeInsets.all(8),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,37 +71,11 @@ class ItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 30, 0),
-                    child: Text(formatDate(
-                        DateTime.parse(clicado['posts'][index]['data']), [
-                      dd,
-                      '/',
-                      mm,
-                      '/',
-                      yyyy,
-                    ])),
-                  ),
-                ],
-              ),
               SizedBox(
                 height: 20.0,
               ),
               HtmlWidget(
                 clicado['posts'][index]['conteudo'],
-              ),
-              new RaisedButton(
-                child: const Text('Compartilhar'),
-                onPressed: () {
-                  final RenderBox box = context.findRenderObject();
-                  Share.share(
-                      "http://hardtec.ga/post/${clicado['posts'][index]['slug']}",
-                      sharePositionOrigin:
-                          box.localToGlobal(Offset.zero) & box.size);
-                },
               ),
             ],
           ),

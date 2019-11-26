@@ -24,6 +24,23 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   var repository = new MyApp();
   var _currentIndex = 0;
 
+  getCat(idCat) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var response = await http.get(
+        Uri.encodeFull("http://hardtec.ga/api/lista-post.php?id_cat=${idCat}"),
+        headers: {"Accept": "Application/json"});
+    if (response.statusCode == 200) {
+      this.setState(() {
+        dados = json.decode(response.body);
+        //print(dados);
+        isLoading = false;
+      });
+    }
+  }
+
   static String removeTag(htmlString) {
     var codHtml = parse(htmlString);
     String htmlnoTag = parse(codHtml.body.text).documentElement.text;
@@ -41,7 +58,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     if (response.statusCode == 200) {
       this.setState(() {
         dados = json.decode(response.body);
-        print(dados);
+        //print(dados);
         isLoading = false;
       });
     }
@@ -93,14 +110,15 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                         itemBuilder: (BuildContext context, int index) {
                           String test =
                               removeTag(dados['posts'][index]['conteudo']);
-                          print("${dados['posts'][index]['titulo']}");
+                          //print("${dados['posts'][index]['titulo']}");
                           return new GestureDetector(
                             child: Card(
                               child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 20),
                                     child: SizedBox(
                                       width: 340,
                                       height: 200,
@@ -112,7 +130,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                             new CircularProgressIndicator(),
                                         errorWidget: (context, url, error) =>
                                             new Icon(Icons.error),
-                                            fit: BoxFit.cover,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -127,7 +145,9 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 10),
                                                 child: Text(
                                                   "${dados['posts'][index]['titulo']}",
                                                   style: TextStyle(
@@ -143,14 +163,24 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                                                 height: 8.0,
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Padding(
-                                                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 9),
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 0, 10, 9),
                                                     child: Text(formatDate(
-                                                        DateTime.parse(dados['posts']
-                                                            [index]['data']),
-                                                        [dd, '/', mm, '/', yyyy])),
+                                                        DateTime.parse(
+                                                            dados['posts']
+                                                                    [index]
+                                                                ['data']),
+                                                        [
+                                                          dd,
+                                                          '/',
+                                                          mm,
+                                                          '/',
+                                                          yyyy
+                                                        ])),
                                                   ),
                                                 ],
                                               ),
@@ -272,21 +302,9 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
     );
   }
 
-  //============começo do menu categoria=============//
-  void setCategorys() {
-    _categorys.add("Todos");
-    _categorys.add("Técnico em Enfermagem");
-    _categorys.add("Manutenção de Computadores");
-    _categorys.add("Técnico em Administração");
-    _categorys.add("Enfermagem");
-    _categorys.add("Eventos do Senac São João");
-    _categorys.add("Quiz");
-    _categorys.add("Fica Dica =D");
-  }
-
   Widget _getListCategory() {
     ListView listCategory = new ListView.builder(
-        itemCount: _categorys.length,
+        itemCount: dados == null ? 0 : dados['categorias'].length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return _buildCategoryItem(index);
@@ -294,20 +312,27 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
 
     return new Container(
       height: 55.0,
-      child: listCategory,
+      child: Container(
+        child: listCategory,
+      ),
     );
   }
 
   Widget _buildCategoryItem(index) {
-    return new GestureDetector(
-      onTap: () {
-        onTabCategory(index);
-      },
-      child: new Center(
-        child: new Container(
-          margin: new EdgeInsets.only(left: 10.0),
-          child: new ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
+    return new Center(
+      child: new Container(
+        margin: new EdgeInsets.only(left: 10.0),
+        child: new ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: GestureDetector(
+            onTap: () {
+              print(dados['categorias'][index]['nome']);
+              onTabCategory(index);
+
+              dados['categorias'][index]['nome'] == ' TODAS'
+                  ? getData()
+                  : getCat(dados['categorias'][index]['id_categoria']);
+            },
             child: new Container(
               padding: new EdgeInsets.only(
                   left: 12.0, top: 7.0, bottom: 7.0, right: 12.0),
@@ -315,7 +340,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                   ? Colors.blue[800]
                   : Colors.blue[500],
               child: new Text(
-                _categorys[index],
+                "${dados['categorias'][index]['nome']}",
                 style: new TextStyle(color: Colors.white),
               ),
             ),
@@ -329,6 +354,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   onTabCategory(index) {
     setState(() {
       _category_selected = index;
+      // print(index);
     });
   }
 
@@ -337,8 +363,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   @override
   void initState() {
     super.initState();
-    this.getData();
-    setCategorys();
     NoticeHardTec();
+    this.getData();
   }
 }

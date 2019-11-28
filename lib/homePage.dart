@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hardtec_app/pages/noticeCard.dart';
+import 'package:hardtec_app/pages/sobre.dart';
 import 'package:http/http.dart' as http;
 import 'package:hardtec_app/pages/slider.dart';
 import 'package:date_format/date_format.dart';
@@ -23,6 +24,29 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
   List _news = new List();
   var repository = new MyApp();
   var _currentIndex = 0;
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Olá"),
+          content: new Text("Está é uma versão instavél de aplicativo, e ainda há chances de alteração"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   getCat(idCat) async {
     setState(() {
@@ -82,14 +106,21 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
           children: <Widget>[
             _createHeader(),
             SizedBox(height: 20),
-            _createDrawerItem(
-              icon: Icons.contacts,
-              text: 'Sobre',
+            ListTile(
+              title: Text('Sobre o Time'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => About()),
+                );
+              },
             ),
             SizedBox(height: 360),
             ListTile(
-              title: Text('0.0.1'),
-              onTap: () {},
+              title: Text('0.1.254'),
+              onTap: () {
+                _showDialog();
+              },
             ),
           ],
         ),

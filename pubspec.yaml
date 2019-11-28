@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.16.0
   flutter_widget_from_html_core: ^0.2.4+2
   share : ^0.5.3
+  font_awesome_flutter: ^8.5.0
   
 
 dev_dependencies:
@@ -68,6 +69,12 @@ flutter:
   assets:
     - assets/img/drawer.jpg
     - assets/img/logo.png
+    - assets/img/linkedin.png
+    - assets/img/instagram.png
+    - assets/img/github.png
+    - assets/img/gmail.png
+    - assets/img/facebook.png
+
   # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

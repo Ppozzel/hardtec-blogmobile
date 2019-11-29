@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hardtec_app/pages/noticeCard.dart';
 import 'package:hardtec_app/pages/sobre.dart';
+import 'package:hardtec_app/pages/sobrecurso.dart';
 import 'package:http/http.dart' as http;
 import 'package:hardtec_app/pages/slider.dart';
 import 'package:date_format/date_format.dart';
@@ -33,7 +34,8 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Olá"),
-          content: new Text("Está é uma versão instavél de aplicativo, e ainda há chances de alteração"),
+          content: new Text(
+              "Está é uma versão instavél de aplicativo, e ainda há chances de alteração"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -107,7 +109,7 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
             _createHeader(),
             SizedBox(height: 20),
             ListTile(
-              title: Text('Sobre o Time'),
+              title: Text('Time de Desenvolvimento'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -115,9 +117,18 @@ class _NoticeHardTecState extends State<NoticeHardTec> {
                 );
               },
             ),
-            SizedBox(height: 360),
             ListTile(
-              title: Text('0.1.254'),
+              title: Text('Sobre o Curso'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => sobreCurso()),
+                );
+              },
+            ),
+            SizedBox(height: 340),
+            ListTile(
+              title: Text('v0.1.9'),
               onTap: () {
                 _showDialog();
               },

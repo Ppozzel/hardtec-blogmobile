@@ -32,12 +32,6 @@ class _AboutState extends State<About> {
     }
   }
 
-  String sobrecurso33 =
-      "O Assistente de Desenvolvimento de Aplicativos Computacionais é o profissional responsável por prestar assistência no desenvolvimento realizando a manutenção de software em um sistema mainframe ou desenvolve software para uso em computadores."
-      "Um Assistente de Desenvolvimento de Sistemas Computacionais desenvolve sistemas e aplicações, determinando interface gráfica, critérios ergonômicos de navegação, montagem da estrutura de banco de dados e codificação de programas."
-      "Está sob as responsabilidades de um Assistente de Desenvolvimento de Sistemas Computacionais planejar etapas e ações de trabalho, projetar, implantar e realizar manutenção de sistemas e aplicações, selecionar recursos de trabalho, tais como metodologias de desenvolvimento de sistemas, linguagem de programação e ferramentas de desenvolvimento, aplicar revisão de planos de sistemas, planejando etapas e ações de trabalho."
-      "Para que o profissional tenha um bom desempenho como Assistente de Desenvolvimento de Sistemas Computacionais além da graduação é essencial sempre se manter atualizado em estudo, pesquisa e desenvolvimento tecnológico, pois a informática e a tecnologia da informação têm evoluído de uma forma vertiginosa nos últimos anos.";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +56,11 @@ class _AboutState extends State<About> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                         child: SizedBox(
-                          width: 340,
-                          height: 200,
+                          width: 440,
+                          height: 400,
                           child: CachedNetworkImage(
                             imageUrl: "${aluno['alunos'][index]['img_aluno']}" ??
-                                'https://upload.wikimedia.org//wikipedia//commons//1//17//Google-flutter-logo.png',
+                                'http://comic-cons.xyz/wp-content/uploads/Star-Wars-avatar-icon-Darth-Vader.png',
                             placeholder: (context, url) =>
                                 new CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -139,42 +133,46 @@ class _AboutState extends State<About> {
                                       Container(
                                         child: Row(
                                           children: <Widget>[
-                                            aluno['alunos'][index]['instagram'] !=
+                                            aluno['alunos'][index]
+                                                        ['instagram'] !=
                                                     ''
                                                 ? new Image.asset(
                                                     'assets/img/instagram.png',
                                                     width: 40,
                                                     height: 50,
                                                   )
-                                                : new Container(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                  // str.contains('Instagram') ? null :
-                                                  "${aluno['alunos'][index]['instagram']}"),
+                                                : new SizedBox(
+                                                    height: 1,
+                                                  ),
+                                            SizedBox(
+                                              width: 20,
                                             ),
+                                            Text(
+                                                // str.contains('Instagram') ? null :
+                                                "${aluno['alunos'][index]['instagram']}"),
                                           ],
                                         ),
                                       ),
                                       Container(
                                         child: Row(
                                           children: <Widget>[
-                                            aluno['alunos'][index]['linkedin'] !=
+                                            aluno['alunos'][index]
+                                                        ['linkedin'] !=
                                                     ''
                                                 ? new Image.asset(
                                                     'assets/img/linkedin.png',
                                                     width: 40,
                                                     height: 50,
                                                   )
-                                                : new Container(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                  // str.contains('Instagram') ? null :
-                                                  "${aluno['alunos'][index]['linkedin']}"),
+                                                : new SizedBox(
+                                                    height: 1,
+                                                  ),
+                                            SizedBox(
+                                              width: 20,
                                             ),
+                                            Text(
+                                                // str.contains('Instagram') ? null :
+                                                "${aluno['alunos'][index]['linkedin']}"),
                                           ],
                                         ),
                                       ),
@@ -188,14 +186,68 @@ class _AboutState extends State<About> {
                                                     width: 40,
                                                     height: 50,
                                                   )
-                                                : new Container(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                                : new SizedBox(
+                                                    height: 1,
+                                                  ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
                                               child: Text(
                                                   // str.contains('Instagram') ? null :
                                                   "${aluno['alunos'][index]['github']}"),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            aluno['alunos'][index]
+                                                        ['facebook'] !=
+                                                    ''
+                                                ? new Image.asset(
+                                                    'assets/img/facebook.png',
+                                                    width: 40,
+                                                    height: 50,
+                                                  )
+                                                : new SizedBox(
+                                                    height: 1,
+                                                    child: const DecoratedBox(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              color:
+                                                                  Colors.red),
+                                                    ),
+                                                  ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                                // str.contains('Instagram') ? null :
+                                                "${aluno['alunos'][index]['facebook']}"),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            aluno['alunos'][index]['email'] !=
+                                                    ''
+                                                ? new Image.asset(
+                                                    'assets/img/gmail.png',
+                                                    width: 40,
+                                                    height: 50,
+                                                  )
+                                                : new SizedBox(
+                                                    height: 1,
+                                                  ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                                // str.contains('Instagram') ? null :
+                                                "${aluno['alunos'][index]['email']}"),
                                           ],
                                         ),
                                       ),
